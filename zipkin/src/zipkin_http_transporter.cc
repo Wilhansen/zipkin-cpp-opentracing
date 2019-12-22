@@ -26,6 +26,7 @@ ZipkinHttpTransporter::ZipkinHttpTransporter(const char *collector_host,
   handle_.setopt(CURLOPT_URL, getUrl(collector_host, collector_port).c_str());
 
   headers_.append("Content-Type: application/json");
+  headers_.append("Expect:"); // suppress Expect: 100-continue
   handle_.setopt(CURLOPT_HTTPHEADER, static_cast<curl_slist *>(headers_));
 
   handle_.setopt(CURLOPT_ERRORBUFFER, error_buffer_);
