@@ -13,12 +13,7 @@ const std::string Endpoint::toJson() {
   rapidjson::StringBuffer s;
   rapidjson::Writer<rapidjson::StringBuffer> writer(s);
   writer.StartObject();
-  if (!address_.valid()) {
-    writer.Key(ZipkinJsonFieldNames::get().ENDPOINT_IPV4.c_str());
-    writer.String("");
-    writer.Key(ZipkinJsonFieldNames::get().ENDPOINT_PORT.c_str());
-    writer.Uint(0);
-  } else {
+  if (address_.valid()) {
     if (address_.version() == IpVersion::v4) {
       // IPv4
       writer.Key(ZipkinJsonFieldNames::get().ENDPOINT_IPV4.c_str());
@@ -27,6 +22,8 @@ const std::string Endpoint::toJson() {
       writer.Key(ZipkinJsonFieldNames::get().ENDPOINT_IPV6.c_str());
     }
     writer.String(address_.addressAsString().c_str());
+  }
+  if (port_ != 0) {
     writer.Key(ZipkinJsonFieldNames::get().ENDPOINT_PORT.c_str());
     writer.Uint(port_);
   }

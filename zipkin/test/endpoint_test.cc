@@ -8,25 +8,31 @@ TEST_CASE("endpoint") {
     {
         // Empty endpoint
         Endpoint ep;
-        CHECK(ep.toJson() == "{\"ipv4\":\"\",\"port\":0,\"serviceName\":\"\"}");
+        CHECK(ep.toJson() == "{\"serviceName\":\"\"}");
     }
 
     {
         // Only service name is set
         Endpoint ep("foo", IpAddress(IpVersion::v4, ""), 0);
-        CHECK(ep.toJson() == "{\"ipv4\":\"\",\"port\":0,\"serviceName\":\"foo\"}");
+        CHECK(ep.toJson() == "{\"serviceName\":\"foo\"}");
     }
 
     {
         // Service name is set but IP address is not valid IPv4
         Endpoint ep("foo", IpAddress(IpVersion::v4, "foo.example.com"), 0);
-        CHECK(ep.toJson() == "{\"ipv4\":\"\",\"port\":0,\"serviceName\":\"foo\"}");
+        CHECK(ep.toJson() == "{\"serviceName\":\"foo\"}");
     }
 
     {
         // Service name is set, IP address is set to IPv4, port not set
         Endpoint ep("foo", IpAddress(IpVersion::v4, "1.2.3.4"), 0);
-        CHECK(ep.toJson() == "{\"ipv4\":\"1.2.3.4\",\"port\":0,\"serviceName\":\"foo\"}");
+        CHECK(ep.toJson() == "{\"ipv4\":\"1.2.3.4\",\"serviceName\":\"foo\"}");
+    }
+
+    {
+        // Service name is set, IP address is not set, port is set
+        Endpoint ep("foo", IpAddress(), 5678);
+        CHECK(ep.toJson() == "{\"port\":5678,\"serviceName\":\"foo\"}");
     }
 
     {
