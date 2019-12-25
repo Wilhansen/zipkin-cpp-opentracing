@@ -43,17 +43,19 @@ public:
   /**
    * Default constructor. Creates an empty Endpoint.
    */
-  Endpoint() = default;
+  Endpoint(): service_name_(), address_(), port_(0) {}
 
   /**
    * Constructor that initializes an endpoint with the given attributes.
    *
    * @param service_name String representing the endpoint's service name
    * @param address Pointer to an object representing the endpoint's network
-   * address
+   * IP address
+   * @param port Network port number of the endpoint
    */
-  Endpoint(const std::string &service_name, const IpAddress &address)
-      : service_name_(service_name), address_(address) {}
+  Endpoint(const std::string &service_name, const IpAddress &address,
+      uint32_t port) : service_name_(service_name), address_(address),
+      port_(port) {}
 
   /**
    * @return the endpoint's address.
@@ -64,6 +66,16 @@ public:
    * Sets the endpoint's address
    */
   void setAddress(const IpAddress &address) { address_ = address; }
+
+  /**
+   * @return the endpoint's port.
+   */
+  const uint32_t port() const { return port_; }
+
+  /**
+   * Sets the endpoint's port
+   */
+  void setPort(const uint32_t port) { port_ = port; }
 
   /**
    * @return the endpoint's service name attribute.
@@ -88,6 +100,7 @@ public:
 private:
   std::string service_name_;
   IpAddress address_;
+  uint32_t port_;
 };
 
 /**

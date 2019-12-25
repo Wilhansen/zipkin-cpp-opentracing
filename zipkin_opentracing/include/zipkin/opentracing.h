@@ -13,6 +13,7 @@ struct ZipkinOtTracerOptions {
 
   std::string service_name;
   IpAddress service_address;
+  uint32_t service_port = 0;
 };
 
 std::shared_ptr<opentracing::Tracer>

@@ -8,7 +8,7 @@
 namespace zipkin {
 SpanPtr Tracer::startSpan(const std::string &span_name, SystemTime timestamp) {
   // Build the endpoint
-  Endpoint ep(service_name_, address_);
+  Endpoint ep(service_name_, address_, port_);
 
   // Create an all-new span, with no parent id
   SpanPtr span_ptr(new Span());
@@ -81,7 +81,7 @@ SpanPtr Tracer::startSpan(const std::string &span_name, SystemTime timestamp,
   }
 
   // Build the endpoint
-  Endpoint ep(service_name_, address_);
+  Endpoint ep(service_name_, address_, port_);
 
   // Add the newly-created annotation to the span
   annotation.setEndpoint(std::move(ep));

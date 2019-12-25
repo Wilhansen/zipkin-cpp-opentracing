@@ -28,7 +28,7 @@ const std::string Endpoint::toJson() {
     }
     writer.String(address_.addressAsString().c_str());
     writer.Key(ZipkinJsonFieldNames::get().ENDPOINT_PORT.c_str());
-    writer.Uint(address_.port());
+    writer.Uint(port_);
   }
   writer.Key(ZipkinJsonFieldNames::get().ENDPOINT_SERVICE_NAME.c_str());
   writer.String(service_name_.c_str());

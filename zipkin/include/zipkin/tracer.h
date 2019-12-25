@@ -79,11 +79,14 @@ public:
    * @param service_name The name of the service where the Tracer is running.
    * This name is used in all annotations' endpoints of the spans created by the
    * Tracer.
-   * @param address Pointer to a network-address object. The IP address and port
-   * are used in all annotations' endpoints of the spans created by the Tracer.
+   * @param address IP-address
+   * @param port Port
+   * The IP address and port are used in all annotations' endpoints of the spans
+   * created by the Tracer.
    */
-  Tracer(const std::string &service_name, const IpAddress &address)
-      : service_name_(service_name), address_(address), reporter_(nullptr) {}
+  Tracer(const std::string &service_name, const IpAddress &address, uint32_t port)
+      : service_name_(service_name), address_(address), port_(port),
+        reporter_(nullptr) {}
 
   /**
    * Creates a "root" Zipkin span.
@@ -116,9 +119,14 @@ public:
   const std::string &serviceName() const { return service_name_; }
 
   /**
-   * @return the pointer to the address object associated with the Tracer.
+   * @return the IP address object associated with the Tracer.
    */
   const IpAddress &address() const { return address_; }
+
+  /**
+   * @return the service port associated with the Tracer.
+   */
+  const uint32_t port() const { return port_; }
 
   /**
    * Associates a Reporter object with this Tracer.
@@ -140,6 +148,7 @@ public:
 private:
   const std::string service_name_;
   IpAddress address_;
+  uint32_t port_;
   ReporterPtr reporter_;
 };
 

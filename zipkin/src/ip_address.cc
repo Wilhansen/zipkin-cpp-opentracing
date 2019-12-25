@@ -26,27 +26,21 @@ static std::string makeFriendlyIpv6Address(const std::string &address) {
 }
 
 IpAddress::IpAddress(IpVersion version, const std::string &address)
-    : IpAddress{version, address, 0} {}
-
-IpAddress::IpAddress(IpVersion version, const std::string &address,
-                     uint32_t port)
-    : version_{version}, friendly_address_{}, port_{0} {
+    : version_{version}, address_{} {
   switch (version) {
   case IpVersion::v4: {
     if (!isValidIpv4Address(address)) {
       return;
     }
-    friendly_address_ = address + ":" + std::to_string(port);
+    address_ = address;
   }
   case IpVersion::v6: {
     auto normalized_address = makeFriendlyIpv6Address(address);
     if (normalized_address.empty()) {
       return;
     }
-    friendly_address_ =
-        std::string{"["} + normalized_address + "]:" + std::to_string(port);
+    address_ = normalized_address;
   }
   }
-  port_ = port;
 }
 } // namespace zipkin

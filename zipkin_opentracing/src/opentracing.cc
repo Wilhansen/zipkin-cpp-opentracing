@@ -328,7 +328,7 @@ public:
       span->setSampled(sampler_->ShouldSample());
     }
 
-    Endpoint endpoint{tracer_->serviceName(), tracer_->address()};
+    Endpoint endpoint{tracer_->serviceName(), tracer_->address(), tracer_->port()};
 
     // Add a binary annotation for the serviceName.
     BinaryAnnotation service_name_annotation{"lc", tracer_->serviceName()};
@@ -413,7 +413,8 @@ private:
 std::shared_ptr<opentracing::Tracer>
 makeZipkinOtTracer(const ZipkinOtTracerOptions &options,
                    std::unique_ptr<Reporter> &&reporter) {
-  TracerPtr tracer{new Tracer{options.service_name, options.service_address}};
+  TracerPtr tracer{new Tracer{options.service_name, options.service_address,
+      options.service_port}};
   tracer->setReporter(std::move(reporter));
   SamplerPtr sampler{new ProbabilisticSampler{options.sample_rate}};
   return std::make_shared<OtTracer>(std::move(tracer), std::move(sampler));

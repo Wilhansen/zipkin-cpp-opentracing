@@ -12,19 +12,14 @@ public:
 
   IpAddress(IpVersion version, const std::string &address);
 
-  IpAddress(IpVersion version, const std::string &address, uint32_t port);
-
   IpVersion version() const { return version_; }
 
-  uint32_t port() const { return port_; }
+  const std::string &addressAsString() const { return address_; }
 
-  const std::string &addressAsString() const { return friendly_address_; }
-
-  bool valid() const { return !friendly_address_.empty(); }
+  bool valid() const { return !address_.empty(); }
 
 private:
   IpVersion version_;
-  std::string friendly_address_;
-  uint32_t port_;
+  std::string address_;
 };
 } // namespace zipkin
